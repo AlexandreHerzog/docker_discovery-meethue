@@ -1,0 +1,2 @@
+* * * * * echo "Hello world" >> /var/log/cron.log 2>&1
+*/20 * * * * curl -i -o /usr/share/nginx/html/discovery.meethue.txt https://discovery.meethue.com
