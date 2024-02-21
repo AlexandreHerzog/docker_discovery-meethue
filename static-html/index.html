@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Status</title>
+        <script src="vue.js"></script>
+        <style>
+            table, th, td {
+                border: 0.1px solid;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+			<button @click="makeRequest" type="button">Update</button>
+			<pre v-if="results">
+				{{ results }}
+			</pre>
+        </div>
+
+        <script>
+            let _model = {
+                name: 'Model',
+                components: {
+                },
+                props: [],
+                data() {
+                    return {
+                    };
+                },
+                template: `
+                    <div>
+                    </div>
+                    `,
+            };
+
+            const app = new Vue({
+                data() {
+                    return {
+                        lastQuery: undefined,
+                        results: undefined,
+                    };
+                },
+                computed: {
+                },
+                methods: {
+                    makeRequest() {
+                        httpRequest = new XMLHttpRequest();
+
+                        if (!httpRequest) {
+                            alert("Giving up :( Cannot create an XMLHTTP instance");
+                            return false;
+                        }
+                        httpRequest.onreadystatechange =  function(vm) {
+                            if (this.readyState === XMLHttpRequest.DONE) {
+                            if (this.status === 200) {
+                                vm.results = httpRequest.responseText;
+                                console.log(httpRequest.responseText);
+                                vm.lastQuery = new Date();
+                            } else {
+                                vm.results = "Request Failed";
+                            }
+                            }
+                        }.bind(httpRequest, this);
+                        httpRequest.open("GET", "discovery.meethue.txt");
+                        httpRequest.send();
+                    },
+                },
+                created() {
+                        this.makeRequest();
+                    },
+            }).$mount('#app');
+        </script>
+    </body>
+</html>
