@@ -13,4 +13,5 @@ COPY get-meethue-info /etc/cron.d/get-meethue-info
 RUN chmod 0644 /etc/cron.d/get-meethue-info
 RUN crontab /etc/cron.d/get-meethue-info
 RUN touch /var/log/cron.log
-CMD curl -i -o /usr/share/nginx/html/discovery.meethue.txt https://discovery.meethue.com && cron && tail -f /var/log/cron.log
+RUN curl -i -o /usr/share/nginx/html/discovery.meethue.txt https://discovery.meethue.com
+RUN cron
